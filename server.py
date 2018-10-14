@@ -1,17 +1,17 @@
-from parser import make
+from parser import make, rand_dict
 
 from flask import Flask, render_template
 app = Flask(__name__)
 
-questions, answers = make('wordlist')
+q, a = rand_dict(make('wordlist'))
 
 @app.route('/')
 def template():
-	return render_template('index.html', data=questions)
+	return render_template('index.html', data=q, a=False)
 
 @app.route('/a')
 def answer():
-	return render_template('index.html', data=answers)
+	return render_template('index.html', data = q, a = a)
 
 if __name__ == '__main__':
     app.run(debug=True)

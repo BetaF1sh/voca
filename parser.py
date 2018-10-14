@@ -9,27 +9,33 @@ def make(filename):
 	df[0] = df.pop('Unnamed: 1')
 	df[1] = df.pop('Unnamed: 2')
 
-	questions = []
-	answers = []
+	del df[0][0], df[1][0]
 
-	for i in range(len(df[0])):
+	_dict = {}
+
+	for i in range(1, len(df[0]) + 1):
 		_i = random.choice([0, 1])
-		questions.append(df[_i][i])
-		answers.append(df[_i ^ 1][i])
+		_dict[df[_i][i]] = df[_i ^ 1][i]
+	return _dict
 
-	return answers[1:], questions[1:]
 
-def save2exel(answers, questions):
-	write = pd.ExcelWriter('test.xlsx')
+def rand_dict(_dict):
+	q_rand = random.sample([key for key in _dict.keys()], len(_dict))
+	a_rand = [_dict[i] for i in q_rand]
+	return q_rand, a_rand
 
-	df_q = pd.DataFrame({'질문':questions})
-	df_a = pd.DataFrame({'정답':answers})
+def save2exel(_dict):
+	writer = pd.ExcelWriter('test.xlsx')
+	
+	q_rand, a_rand = rand_dict(_dict)
 
-	df_q.to_excel(write, sheet_name='questions')
-	df_a.to_excel(write, sheet_name='answers')
+	df_q = pd.DataFrame({'질문':q_rand})
+	df_a = pd.DataFrame({'정답':a_rand})
 
-	write.save()
+	df_q.to_excel(writer, sheet_name='questions')
+	df_a.to_excel(writer, sheet_name='answers')
+
+	writer.save()
 
 if __name__ == '__main__':
-	questions, answers = make('wordlist')
-	save2exel(questions, answers)
+	save2exel(make('wordlist'))
