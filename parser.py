@@ -1,5 +1,4 @@
 import pandas as pd
-from pprint import pprint
 import random
 
 
@@ -19,3 +18,18 @@ def make(filename):
 		answers.append(df[_i ^ 1][i])
 
 	return answers[1:], questions[1:]
+
+def save2exel(answers, questions):
+	write = pd.ExcelWriter('test.xlsx')
+
+	df_q = pd.DataFrame({'질문':questions})
+	df_a = pd.DataFrame({'정답':answers})
+
+	df_q.to_excel(write, sheet_name='questions')
+	df_a.to_excel(write, sheet_name='answers')
+
+	write.save()
+
+if __name__ == '__main__':
+	questions, answers = make('wordlist')
+	save2exel(questions, answers)
