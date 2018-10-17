@@ -17,7 +17,7 @@
       <table class="table table-bordered">
         <thead><tr><th>문제</th><th>해답은?</th></tr></thead>
 		    <tbody>
-		    {% for item in data %}
+		    {% for item in q %}
 			    <tr><td>{{ item }}</td><td>{% if a %}{{ a[loop.index0] }}{% endif %}</td></tr>
 		    {% endfor %}
 		    </tbody>

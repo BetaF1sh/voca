@@ -3,17 +3,15 @@ import random
 
 
 def make(filename):
-	xls = pd.ExcelFile(filename + '.xlsx', on_demand = True)
+	xls = pd.ExcelFile(filename + '.xlsx')
 	df = xls.parse(xls.sheet_names[0])
 
 	df[0] = df.pop('Unnamed: 1')
 	df[1] = df.pop('Unnamed: 2')
 
-	del df[0][0], df[1][0]
-
 	_dict = {}
 
-	for i in range(1, len(df[0]) + 1):
+	for i in range(1, len(df[0])):
 		_i = random.choice([0, 1])
 		_dict[df[_i][i]] = df[_i ^ 1][i]
 	return _dict
@@ -32,8 +30,8 @@ def save2exel(_dict):
 	df_q = pd.DataFrame({'질문':q_rand})
 	df_a = pd.DataFrame({'정답':a_rand})
 
-	df_q.to_excel(writer, sheet_name='questions')
-	df_a.to_excel(writer, sheet_name='answers')
+	df_q.to_excel(writer, sheet_name='질문')
+	df_a.to_excel(writer, sheet_name='정답')
 
 	writer.save()
 

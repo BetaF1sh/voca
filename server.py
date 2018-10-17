@@ -7,11 +7,11 @@ q, a = rand_dict(make('wordlist'))
 
 @app.route('/')
 def template():
-	return render_template('index.html', data=q, a=False)
+	return render_template('index.html', q = q, a = False)
 
 @app.route('/a')
 def answer():
-	return render_template('index.html', data = q, a = a)
+	return render_template('index.html', q = q, a = a)
 
 if __name__ == '__main__':
     app.run(debug=True)
