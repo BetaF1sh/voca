@@ -1,13 +1,13 @@
-from parser import make, rand_dict
+from parser import exel2dict, mix_dict
 
 from flask import Flask, render_template
 app = Flask(__name__)
 
-q, a = rand_dict(make('wordlist'))
+q, a = mix_dict(exel2dict('wordlist'))
 
 @app.route('/')
 def template():
-	return render_template('index.html', q = q, a = False)
+	return render_template('index.html', q = q)
 
 @app.route('/a')
 def answer():
