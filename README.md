@@ -6,9 +6,9 @@ A printable vocabulary exam generator for [AmgiGorae][암기고래]
 
 ## Install
 
-````
+```
 pip install voca-gorae
-````
+```
 
 ## How to use
 
