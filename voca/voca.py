@@ -1,13 +1,13 @@
+# coding: utf-8
 import argparse
 import random
+import os
 
 import pandas as pd
 
 from flask import Flask, render_template
 
-app = Flask(__name__)
-
-swap = [None, None]
+app = Flask(__name__, template_folder=os.path.dirname(os.path.abspath(__file__)))
 
 
 def _exel2dict(file_name, _range=1):
@@ -41,12 +41,12 @@ def _save2exel(question, answer, name):
 
 @app.route("/")
 def _qustion():
-    return render_template("index.html", q=swap[0])
+    return render_template("index.html", q=app.config["Q"])
 
 
 @app.route("/a")
 def _answer():
-    return render_template("index.html", q=swap[0], a=swap[1])
+    return render_template("index.html", q=app.config["Q"], a=app.config["A"])
 
 
 def _get_parser():
@@ -83,8 +83,8 @@ def command_line_runner():
     else:
         _dict = _exel2dict(args["path"])
 
-    swap[0], swap[1] = _mix_dict(_dict)
-    _save2exel(swap[0], swap[1], args["save"])
+    app.config["Q"], app.config["A"] = _mix_dict(_dict)
+    _save2exel(app.config["Q"], app.config["A"], args["save"])
 
     if args["web"]:
         app.run()
